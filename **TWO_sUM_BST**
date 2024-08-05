@@ -1,0 +1,21 @@
+class Solution {
+    //what i initially thought was that we will keep a track of whether a and target-a are both
+    //present in the map
+    //if found in map, return true;
+    //else false// 0 in case root is a null value. what hapepns if target is null?
+public:
+    bool findTarget(TreeNode* root, int k) {
+     unordered_set<int> seen;
+     return find(root,k,seen) ;  
+    }
+private:
+bool find(TreeNode* root, int k, unordered_set<int>& seen)
+{
+    if(root==NULL) return false;
+    if(seen.find(k-root->val)!=seen.end())
+    return true;
+    seen.insert(root->val);
+    //weirdest party of bsts are the last lines.... why left and right??
+    return find(root->left,k,seen)||find(root->right,k,seen);
+}
+};
