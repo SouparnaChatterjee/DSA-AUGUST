@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+    return isValidBST(root,nullptr,nullptr);//very important;    
+    }
+    bool isValidBST(TreeNode* root, TreeNode* minNode, TreeNode* maxNode)
+    {
+        if(root==nullptr)
+        return true;
+        if(minNode && minNode->val>=root->val)
+        return false;
+        if(maxNode && maxNode->val<=root->val)
+        return false;
+        //next line is very important
+        return isValidBST(root->left,minNode,root) && isValidBST(root->right,root,maxNode);
+    }
+};
