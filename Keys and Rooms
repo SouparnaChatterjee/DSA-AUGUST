@@ -1,0 +1,38 @@
+//BFS and DFS are suitable for traversing both cyclic and acyclic directed graphs.
+//These algorithms do not rely on the graph being acyclic. 
+//They are used to explore nodes and check connectivity, regardless of the presence of cycles.
+//Space Complexity:O(N); TC: O(N+E)
+
+#include <vector>
+
+using namespace std;
+
+class Solution {
+private:
+    void dfs(const vector<vector<int>>& rooms, vector<bool>& vis, int room) {
+        if (vis[room]) return; // If already visited, return
+        
+        vis[room] = true; // Mark the current room as visited
+        
+        // Explore all rooms that can be accessed from the current room
+        for (int key : rooms[room]) {
+            if (!vis[key]) {
+                dfs(rooms, vis, key);
+            }
+        }
+    }
+
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        int n = rooms.size();
+        vector<bool> vis(n, false); // Create a visited vector
+        dfs(rooms, vis, 0); // Start DFS from room 0
+        
+        // Check if all rooms have been visited
+        for (bool it : vis) {
+            if (!it) return false;
+        }
+        return true;
+    }
+};
+
