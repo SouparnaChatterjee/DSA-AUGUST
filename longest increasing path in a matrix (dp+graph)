@@ -1,0 +1,47 @@
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        if (matrix.empty() || matrix[0].empty()) return 0;
+        
+        int m = matrix.size();
+        int n = matrix[0].size();
+        vector<vector<int>> dp(m, vector<int>(n, -1));
+        
+        int longestPath = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                longestPath = max(longestPath, dfs(matrix, dp, i, j));
+            }
+        }
+        
+        return longestPath;
+    }
+    
+private:
+    vector<int> dir = {-1, 0, 1, 0, 0, -1, 0, 1}; // Up, Down, Left, Right
+
+    int dfs(const vector<vector<int>>& matrix, vector<vector<int>>& dp, int x, int y) {
+        if (dp[x][y] != -1) return dp[x][y];
+        
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int maxLength = 1; // At least the current cell itself
+        
+        for (int d = 0; d < 4; ++d) {
+            int newX = x + dir[d * 2];
+            int newY = y + dir[d * 2 + 1];
+            
+            if (newX >= 0 && newX < m && newY >= 0 && newY < n && matrix[newX][newY] > matrix[x][y]) {
+                maxLength = max(maxLength, 1 + dfs(matrix, dp, newX, newY));
+            }
+        }
+        
+        dp[x][y] = maxLength;
+        return maxLength;
+    }
+};
