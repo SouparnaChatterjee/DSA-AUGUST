@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+     vector<double> ans;//vector format; average will be in double
+     queue<TreeNode*> q{{root}};//directly initialize
+     //main catch is that queue will be of TreeNode type
+     while(!q.empty())
+     {
+        int size=q.size();
+        long sum=0; //since updated for every level//not innermost tho'
+        for(int i=0;i<size;i++)
+        {
+          TreeNode* node=q.front();
+          q.pop();
+          sum+=node->val;
+          if(node->left)
+          q.push(node->left);
+          if(node->right)
+          q.push(node->right);
+        }
+        ans.push_back(sum/(double)size);
+     }
+     return ans;
+    }
+};
