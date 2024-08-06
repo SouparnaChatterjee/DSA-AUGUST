@@ -1,0 +1,24 @@
+class Solution {
+public:
+unordered_map<int ,int> sumFreq;
+    int maxFreq=INT_MIN;
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        dfs(root);
+        vector<int> result;
+        for(auto& it:sumFreq)
+        {
+            if(it.second==maxFreq)//we are updating maxFreq in the dfs code itself
+            result.push_back(it.first);
+        }
+        return result;//since in vector format
+    }
+    int dfs(TreeNode* node)
+    {
+        if(node==NULL)
+        return 0;
+        int currsum=node->val+dfs(node->left)+dfs(node->right);
+        ++sumFreq[currsum];
+        maxFreq=max(maxFreq, sumFreq[currsum]);
+        return currsum;
+    }
+};
