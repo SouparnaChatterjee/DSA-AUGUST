@@ -1,0 +1,17 @@
+void generateBinaryStrings(int N, string currstr, vector<string>& result)
+{
+    if(currstr.size()==N)
+    {
+        result.push_back(currstr);
+        return;
+    }
+    generateBinaryStrings(N, currstr+"0", result);
+    if(currstr.empty() || currstr.back()!='1')
+    generateBinaryStrings(N, currstr+"1", result);
+}
+vector<string> generateString(int N) {
+    // Write your code here.
+    vector<string> result;
+    generateBinaryStrings(N, "", result);
+    return result;
+}
