@@ -1,0 +1,30 @@
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> subsetSums(vector<int> arr, int n) {
+        vector<int> result;
+        // Start the recursion with index 0 and initial sum 0
+        subsetSumsHelper(arr, 0, 0, result);
+        // Sort the result to match typical expectations for subset sums
+        sort(result.begin(), result.end());
+        return result;
+    }
+
+private:
+    void subsetSumsHelper(const vector<int>& arr, int index, int currentSum, vector<int>& result) {
+        // Base case: If we have considered all elements
+        if (index == arr.size()) {
+            result.push_back(currentSum);
+            return;
+        }
+
+        // Include the current element in the subset
+        subsetSumsHelper(arr, index + 1, currentSum + arr[index], result);
+
+        // Exclude the current element from the subset
+        subsetSumsHelper(arr, index + 1, currentSum, result);
+    }
+};
